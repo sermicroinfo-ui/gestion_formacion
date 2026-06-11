@@ -134,3 +134,15 @@ AUTH_USER_MODEL = 'usuarios.Usuario'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Gestión Formación",
+    "site_header": "Gestión Formación",
+    "site_brand": "Academia",
+    "welcome_sign": "Bienvenido al panel",
+    "show_sidebar": True,
+    "navigation_expanded": True,
+}
