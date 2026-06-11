@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center">
+    <h1>Plataforma de Gestión de Formación</h1>
+    <p>Proyecto realizado con Django</p>
+    {% if user.is_authenticated %}
+        <div class="alert alert-success">
+            Bienvenido {{ user.first_name }}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
