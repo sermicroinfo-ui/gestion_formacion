@@ -25,6 +25,11 @@
             <div>
                 {% if user.is_authenticated %}
                     <span class="text-white me-3">{{ user.username }}</span>
+                    {% if user.tipo == 'alumno' %}
+                        <a href="{% url 'dashboard' %}" class="btn btn-primary me-2">Dashboard</a>
+                        <a href="{% url 'mis_cursos' %}" class="btn btn-warning me-2">Mis Cursos</a>
+                    {% endif %}
+                    <a href="{% url 'lista_cursos' %}" class="btn btn-success me-2">Ver Cursos</a>
                     <form method="post" action="{% url 'logout' %}" class="d-inline">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Salir</button>
@@ -37,6 +42,14 @@
         </div>
     </div>
 </nav>
+
+<div class="container mt-3">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+</div>
 
     <div class="container mt-4">
         {% block content %}

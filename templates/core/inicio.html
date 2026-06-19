@@ -7,7 +7,7 @@
         <p class="fs-4">Sistema desarrollado con Django, PostgreSQL y Bootstrap.</p>
         {% if user.is_authenticated %}
             <div class="alert alert-success">
-                Bienvenido {{ user.first_name }}
+                Bienvenido <strong>{{ user.first_name }} {{ user.last_name }}</strong>
             </div>
         {% else %}
             <a href="{% url 'registro' %}" class="btn btn-primary btn-lg">
