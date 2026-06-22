@@ -13,6 +13,10 @@ Plataforma web para la gestión de cursos, profesores, alumnos y matrículas, de
 
 - Registro e inicio de sesión con modelo de usuario personalizado (alumno / profesor)
 - Catálogo público de cursos con imagen, plazas y fechas
+- Búsqueda de cursos por nombre o descripción
+- Filtrado por profesor
+- Paginación del catálogo
+- URLs amigables para SEO mediante slugs
 - Matriculación con control de plazas y duplicados
 - Cancelación de matrículas con confirmación
 - Dashboard privado del alumno con estadísticas
@@ -44,7 +48,7 @@ gestion_formacion/
 ├── core/            # Página de inicio
 ├── usuarios/        # Modelo de usuario personalizado (alumno / profesor)
 ├── profesores/      # Perfil de profesor (especialidad, biografía, foto)
-├── cursos/          # Cursos (nombre, descripción, plazas, fechas, imagen)
+├── cursos/          # Cursos (nombre, slug, descripción, plazas, fechas, imagen)
 ├── matriculas/      # Matrículas, dashboard y área privada del alumno
 ├── templates/       # Plantillas HTML globales
 ├── media/           # Archivos subidos (imágenes)
@@ -66,7 +70,7 @@ Profesor
 
 Curso
  └── profesor (FK)
- └── nombre, descripción, plazas, fechas, imagen, activo
+ └── nombre (db_index), slug (unique), descripción, plazas, fechas, imagen, activo
 
 Matricula
  └── alumno (FK → Usuario)
@@ -149,11 +153,14 @@ Abrir en el navegador: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 | URL | Descripción |
 |---|---|
 | `/` | Página de inicio |
-| `/cursos/` | Catálogo de cursos |
-| `/cursos/<id>/` | Detalle de un curso |
-| `/matriculas/dashboard/` | Dashboard del alumno |
-| `/matriculas/mis-cursos/` | Cursos matriculados |
+| `/cursos/` | Catálogo de cursos (con búsqueda, filtro y paginación) |
+| `/cursos/<slug>/` | Detalle de un curso |
+| `/matriculas/matricular/<id>/` | Matricularse en un curso |
+| `/matriculas/cancelar/<id>/` | Cancelar una matrícula |
+| `/matriculas/mis-cursos/` | Cursos matriculados del alumno |
+| `/matriculas/dashboard/` | Dashboard privado del alumno |
 | `/accounts/login/` | Inicio de sesión |
+| `/accounts/logout/` | Cierre de sesión |
 | `/admin/` | Panel de administración |
 
 ---
@@ -162,4 +169,5 @@ Abrir en el navegador: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 - Idioma configurado en español (`es-es`).
 - Las imágenes se almacenan en `media/`.
+- Los slugs de los cursos se generan automáticamente a partir del nombre.
 - En producción: `DEBUG=False` y configurar `ALLOWED_HOSTS` en `settings.py`.

@@ -117,9 +117,10 @@ class CursoAdmin(admin.ModelAdmin):
     )
     list_filter = (FiltroEstado, FiltroFecha, FiltroMes, FiltroAnio,)
     ordering = ('nombre',)
+    prepopulated_fields = {'slug': ('nombre',)}
     fieldsets = (
         ('Información General', {
-            'fields': ('nombre', 'descripcion', 'profesor',)
+            'fields': ('nombre', 'slug', 'descripcion', 'profesor',)
         }),
         ('Planificación', {
             'fields': ('fecha_inicio', 'fecha_fin', 'plazas',)

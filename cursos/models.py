@@ -1,9 +1,12 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.utils.text import slugify
 from profesores.models import Profesor
 
+
 class Curso(models.Model):
-    nombre = models.CharField(max_length=200)
+    nombre = models.CharField(max_length=200, db_index=True)
+    slug = models.SlugField(unique=True, blank=True)
     descripcion = models.TextField()
     profesor = models.ForeignKey(
         Profesor,
@@ -24,6 +27,11 @@ class Curso(models.Model):
 
     def __str__(self):
         return self.nombre
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nombre)
+        super().save(*args, **kwargs)
 
     def clean(self):
         if self.fecha_inicio and self.fecha_fin:

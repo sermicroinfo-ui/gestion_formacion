@@ -11,12 +11,12 @@ def matricularse(request, curso_id):
 
     if request.user.tipo != 'alumno':
         messages.error(request, "Sólo los alumnos pueden matricularse.")
-        return redirect('detalle_curso', curso.id)
+        return redirect('detalle_curso', curso.slug)
 
     inscritos = curso.matriculas.count()
     if inscritos >= curso.plazas:
         messages.error(request, "No quedan plazas.")
-        return redirect('detalle_curso', curso.id)
+        return redirect('detalle_curso', curso.slug)
 
     matricula, creada = Matricula.objects.get_or_create(
         alumno=request.user,
@@ -27,7 +27,7 @@ def matricularse(request, curso_id):
     else:
         messages.warning(request, "Ya estás matriculado en este curso.")
 
-    return redirect('detalle_curso', curso.id)
+    return redirect('detalle_curso', curso.slug)
 
 
 @login_required

@@ -15,6 +15,10 @@ FUNCIONALIDADES
 ---------------
 - Registro e inicio de sesión con modelo de usuario personalizado (alumno / profesor)
 - Catálogo público de cursos con imagen, plazas y fechas
+- Búsqueda de cursos por nombre o descripción
+- Filtrado por profesor
+- Paginación del catálogo (6 cursos por página)
+- URLs amigables para SEO mediante slugs
 - Matriculación con control de plazas y duplicados
 - Cancelación de matrículas con confirmación
 - Dashboard privado del alumno con estadísticas
@@ -39,7 +43,7 @@ gestion_formacion/
   core/            -> Página de inicio
   usuarios/        -> Modelo de usuario personalizado (alumno / profesor)
   profesores/      -> Perfil de profesor (especialidad, biografía, foto)
-  cursos/          -> Cursos (nombre, descripción, plazas, fechas, imagen)
+  cursos/          -> Cursos (nombre, slug, descripción, plazas, fechas, imagen)
   matriculas/      -> Matrículas, dashboard y área privada del alumno
   templates/       -> Plantillas HTML globales
   media/           -> Archivos subidos (imágenes)
@@ -57,7 +61,8 @@ MODELOS PRINCIPALES
 
   Curso
     profesor (ForeignKey -> Profesor)
-    nombre, descripcion, plazas, fecha_inicio, fecha_fin, imagen, activo
+    nombre (db_index), slug (unique), descripcion
+    plazas, fecha_inicio, fecha_fin, imagen, activo
 
   Matricula
     alumno (ForeignKey -> Usuario)
@@ -109,12 +114,12 @@ INSTALACIÓN Y PUESTA EN MARCHA
 URLS PRINCIPALES
 ----------------
   /                            -> Página de inicio
-  /cursos/                     -> Catálogo de cursos
-  /cursos/<id>/                -> Detalle de un curso
-  /matriculas/dashboard/       -> Dashboard del alumno
-  /matriculas/mis-cursos/      -> Cursos matriculados
+  /cursos/                     -> Catálogo (búsqueda, filtro y paginación)
+  /cursos/<slug>/              -> Detalle de un curso
   /matriculas/matricular/<id>/ -> Matricularse en un curso
   /matriculas/cancelar/<id>/   -> Cancelar una matrícula
+  /matriculas/mis-cursos/      -> Cursos matriculados del alumno
+  /matriculas/dashboard/       -> Dashboard privado del alumno
   /accounts/login/             -> Inicio de sesión
   /accounts/logout/            -> Cierre de sesión
   /admin/                      -> Panel de administración (Jazzmin)
@@ -123,6 +128,7 @@ NOTAS
 -----
 - Idioma configurado en español (es-es).
 - Las imágenes se almacenan en la carpeta media/.
+- Los slugs se generan automáticamente a partir del nombre del curso.
 - En producción: DEBUG=False y configurar ALLOWED_HOSTS en settings.py.
 - El archivo .env no debe incluirse en el control de versiones.
 
