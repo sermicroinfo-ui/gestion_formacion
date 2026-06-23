@@ -6,4 +6,5 @@ __pycache__/
 
 .env
 media/
-*.logRESUMEN_CURSO.md
+*.log
+RESUMEN_CURSO.md
