@@ -17,14 +17,19 @@ FUNCIONALIDADES
 - Catálogo público de cursos con imagen, plazas y fechas
 - Búsqueda de cursos por nombre o descripción
 - Filtrado por profesor y paginación del catálogo (6 cursos por página)
-- URLs amigables para SEO mediante slugs
+- URLs amigables para SEO mediante slugs (generados automáticamente)
 - Matriculación con control de plazas y duplicados
 - Cancelación de matrículas con confirmación
-- Dashboard privado del alumno con estadísticas
+- Dashboard privado del alumno con estadísticas personales
 - Panel privado del profesor con estadísticas por curso
 - Gestión de cursos propios (crear, editar, eliminar) para profesores
-- Menú dinámico según tipo de usuario
+- Menú dinámico según tipo de usuario (alumno / profesor)
 - Panel de administración personalizado con Jazzmin
+- Nombres en español en el panel de administración
+- Bordes visibles en todos los campos de formulario
+- CSS personalizado para el panel de administración
+- Decorador @profesor_required para proteger vistas privadas
+- Vistas de cursos con Class Based Views (CBV) y Mixins de permisos
 
 TECNOLOGÍAS
 -----------
@@ -43,9 +48,10 @@ gestion_formacion/
   core/            -> Página de inicio
   usuarios/        -> Modelo de usuario personalizado + decoradores de permisos
   profesores/      -> Perfil de profesor + panel privado con estadísticas
-  cursos/          -> Cursos: modelos, vistas CBV, formularios, admin
+  cursos/          -> Cursos: modelos CBV, formularios Bootstrap, admin
   matriculas/      -> Matrículas, dashboard alumno y área privada
   templates/       -> Plantillas HTML globales
+  static/css/      -> CSS personalizado (admin_custom.css)
   media/           -> Archivos subidos (imágenes)
   requirements.txt -> Dependencias del proyecto
   manage.py        -> CLI de Django
@@ -63,12 +69,14 @@ MODELOS PRINCIPALES
     profesor (ForeignKey -> Profesor)
     nombre (db_index), slug (unique), descripcion
     plazas, fecha_inicio, fecha_fin, imagen, activo
+    verbose_name = 'Curso' / verbose_name_plural = 'Cursos'
 
   Matricula
     alumno (ForeignKey -> Usuario)
     curso  (ForeignKey -> Curso)
     fecha_matricula (auto)
     unique_together: (alumno, curso)   <- impide duplicados
+    verbose_name = 'Matrícula' / verbose_name_plural = 'Matrículas'
 
 INSTALACIÓN Y PUESTA EN MARCHA
 -------------------------------
@@ -125,6 +133,7 @@ URLS PRINCIPALES
   /matriculas/dashboard/         -> Dashboard privado del alumno
   /profesores/dashboard/         -> Panel privado del profesor
   /profesores/mis-cursos/        -> Cursos del profesor con estadísticas
+  /usuarios/registro/            -> Registro de nuevo usuario
   /accounts/login/               -> Inicio de sesión
   /accounts/logout/              -> Cierre de sesión
   /admin/                        -> Panel de administración (Jazzmin)
@@ -137,5 +146,6 @@ NOTAS
 - Las vistas de cursos utilizan Class Based Views (CBV).
 - En producción: DEBUG=False y configurar ALLOWED_HOSTS en settings.py.
 - El archivo .env no debe incluirse en el control de versiones.
+- Los archivos __pycache__ y *.pyc están excluidos del repositorio.
 
 ================================================================================

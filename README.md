@@ -14,15 +14,19 @@ Plataforma web para la gestión de cursos, profesores, alumnos y matrículas, de
 - Registro e inicio de sesión con modelo de usuario personalizado (alumno / profesor)
 - Catálogo público de cursos con imagen, plazas y fechas
 - Búsqueda de cursos por nombre o descripción
-- Filtrado por profesor y paginación del catálogo
-- URLs amigables para SEO mediante slugs
+- Filtrado por profesor y paginación del catálogo (6 cursos por página)
+- URLs amigables para SEO mediante slugs generados automáticamente
 - Matriculación con control de plazas y duplicados
 - Cancelación de matrículas con confirmación
-- Dashboard privado del alumno con estadísticas
+- Dashboard privado del alumno con estadísticas personales
 - Panel privado del profesor con estadísticas por curso
 - Gestión de cursos propios (crear, editar, eliminar) para profesores
-- Menú dinámico según tipo de usuario
-- Panel de administración personalizado con Jazzmin
+- Menú dinámico según tipo de usuario (alumno / profesor)
+- Panel de administración personalizado con Jazzmin y nombres en español
+- Bordes visibles en todos los campos de formulario
+- Decorador `@profesor_required` para proteger vistas privadas
+- Vistas de cursos con Class Based Views (CBV) y Mixins de permisos
+- CSS personalizado para el panel de administración
 
 ---
 
@@ -51,6 +55,7 @@ gestion_formacion/
 ├── cursos/          # Cursos: modelos, vistas CBV, formularios, admin
 ├── matriculas/      # Matrículas, dashboard alumno y área privada
 ├── templates/       # Plantillas HTML globales
+├── static/css/      # CSS personalizado (admin_custom.css)
 ├── media/           # Archivos subidos (imágenes)
 ├── requirements.txt
 └── manage.py

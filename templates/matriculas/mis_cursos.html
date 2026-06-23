@@ -16,7 +16,7 @@
     <tbody>
         {% for matricula in matriculas %}
         <tr>
-            <td>{{ matricula.curso.nombre }}</td>
+            <td><a href="{% url 'detalle_curso' matricula.curso.slug %}"> {{matricula.curso.nombre }}</a></td>
             <td>{{ matricula.curso.profesor }}</td>
             <td>{{ matricula.curso.fecha_inicio }}</td>
             <td>
