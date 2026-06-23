@@ -3,25 +3,38 @@
 {% block title %}Mis Cursos{% endblock %}
 
 {% block content %}
-<h1>Mis Cursos</h1>
-<table class="table">
-    <thead>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Mis Cursos</h1>
+    <a href="{% url 'curso_crear' %}" class="btn btn-success">+ Nuevo Curso</a>
+</div>
+
+<table class="table table-hover align-middle">
+    <thead class="table-dark">
         <tr>
             <th>Curso</th>
-            <th>Plazas</th>
-            <th>Matriculados</th>
+            <th class="text-center">Plazas</th>
+            <th class="text-center">Matriculados</th>
+            <th class="text-center">Acciones</th>
         </tr>
     </thead>
     <tbody>
         {% for curso in cursos %}
         <tr>
-            <td>{{ curso.nombre }}</td>
-            <td>{{ curso.plazas }}</td>
-            <td>{{ curso.total_alumnos }}</td>
+            <td>
+                <a href="{% url 'detalle_curso' curso.slug %}" class="text-decoration-none fw-bold">
+                    {{ curso.nombre }}
+                </a>
+            </td>
+            <td class="text-center">{{ curso.plazas }}</td>
+            <td class="text-center">{{ curso.total_alumnos }}</td>
+            <td class="text-center">
+                <a href="{% url 'curso_editar' curso.slug %}" class="btn btn-sm btn-warning me-1">Editar</a>
+                <a href="{% url 'curso_eliminar' curso.slug %}" class="btn btn-sm btn-danger">Eliminar</a>
+            </td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="3">No tienes cursos asignados.</td>
+            <td colspan="4" class="text-center text-muted py-4">No tienes cursos asignados.</td>
         </tr>
         {% endfor %}
     </tbody>

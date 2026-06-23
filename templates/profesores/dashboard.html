@@ -5,39 +5,49 @@
 {% block content %}
 <h1 class="mb-4">Panel Profesor</h1>
 
-<div class="row mb-4">
-    <div class="col-md-4">
-        <div class="card text-center">
-            <div class="card-body">
-                <h5>Cursos impartidos</h5>
-                <h1>{{ total_cursos }}</h1>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card text-center">
-            <div class="card-body">
-                <h5>Alumnos matriculados</h5>
-                <h1>{{ total_alumnos }}</h1>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card text-center">
-            <div class="card-body">
-                <h5>Curso más popular</h5>
-                <p>
-                    {% if curso_popular %}
-                        {{ curso_popular.nombre }}
-                        <br><small class="text-muted">{{ curso_popular.total }} alumnos</small>
-                    {% else %}
-                        Sin datos
-                    {% endif %}
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
+<div class="row g-4">
 
-<a href="{% url 'mis_cursos_profesor' %}" class="btn btn-primary">Ver mis cursos</a>
+    <!-- Tarjeta 1: Cursos impartidos -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card text-center h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="text-muted">Cursos Impartidos</h5>
+                <h1 class="display-4 fw-bold text-primary">{{ total_cursos }}</h1>
+                <a href="{% url 'mis_cursos_profesor' %}" class="btn btn-sm btn-outline-primary mt-2">Ver mis cursos</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tarjeta 2: Alumnos matriculados -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card text-center h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="text-muted">Alumnos Matriculados</h5>
+                <h1 class="display-4 fw-bold text-success">{{ total_alumnos }}</h1>
+                <span class="btn btn-sm btn-outline-success mt-2 disabled">Total alumnos</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tarjeta 3: Curso más popular -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="text-muted">Curso más Popular</h5>
+                    {% if curso_popular %}
+                        <p class="fw-bold mb-1">{{ curso_popular.nombre }}</p>
+                        <small class="text-muted">{{ curso_popular.total }} alumnos matriculados</small>
+                    {% else %}
+                        <p class="text-muted">Sin datos aún.</p>
+                    {% endif %}
+                </div>
+                {% if curso_popular %}
+                    <a href="{% url 'detalle_curso' curso_popular.slug %}" class="btn btn-sm btn-primary mt-3">Ver curso</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
 {% endblock %}
