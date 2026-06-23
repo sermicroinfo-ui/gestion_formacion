@@ -16,5 +16,9 @@ class Profesor(models.Model):
         null=True
     )
 
+    class Meta:
+        verbose_name = 'Profesor'
+        verbose_name_plural = 'Profesores'
+
     def __str__(self):
         return f"{self.usuario.first_name} {self.usuario.last_name}"

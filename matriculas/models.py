@@ -17,6 +17,8 @@ class Matricula(models.Model):
 
     class Meta:
         unique_together = ('alumno', 'curso')
+        verbose_name = 'Matrícula'
+        verbose_name_plural = 'Matrículas'
 
     def __str__(self):
         return f"{self.alumno.username} - {self.curso.nombre}"
