@@ -8,7 +8,7 @@ DESCRIPCIÓN
 -----------
 Aplicación web desarrollada con Django para gestionar una academia de formación.
 Permite registrarse, iniciar sesión, consultar el catálogo de cursos, matricularse,
-gestionar matrículas y acceder a un dashboard privado con estadísticas personales.
+gestionar matrículas y acceder a paneles privados con estadísticas personales.
 El panel de administración utiliza Jazzmin para una interfaz moderna.
 
 FUNCIONALIDADES
@@ -16,13 +16,13 @@ FUNCIONALIDADES
 - Registro e inicio de sesión con modelo de usuario personalizado (alumno / profesor)
 - Catálogo público de cursos con imagen, plazas y fechas
 - Búsqueda de cursos por nombre o descripción
-- Filtrado por profesor
-- Paginación del catálogo (6 cursos por página)
+- Filtrado por profesor y paginación del catálogo (6 cursos por página)
 - URLs amigables para SEO mediante slugs
 - Matriculación con control de plazas y duplicados
 - Cancelación de matrículas con confirmación
 - Dashboard privado del alumno con estadísticas
-- Área privada con listado de cursos matriculados
+- Panel privado del profesor con estadísticas por curso
+- Gestión de cursos propios (crear, editar, eliminar) para profesores
 - Menú dinámico según tipo de usuario
 - Panel de administración personalizado con Jazzmin
 
@@ -41,10 +41,10 @@ ESTRUCTURA DEL PROYECTO
 gestion_formacion/
   config/          -> Configuración principal (settings, urls, wsgi)
   core/            -> Página de inicio
-  usuarios/        -> Modelo de usuario personalizado (alumno / profesor)
-  profesores/      -> Perfil de profesor (especialidad, biografía, foto)
-  cursos/          -> Cursos (nombre, slug, descripción, plazas, fechas, imagen)
-  matriculas/      -> Matrículas, dashboard y área privada del alumno
+  usuarios/        -> Modelo de usuario personalizado + decoradores de permisos
+  profesores/      -> Perfil de profesor + panel privado con estadísticas
+  cursos/          -> Cursos: modelos, vistas CBV, formularios, admin
+  matriculas/      -> Matrículas, dashboard alumno y área privada
   templates/       -> Plantillas HTML globales
   media/           -> Archivos subidos (imágenes)
   requirements.txt -> Dependencias del proyecto
@@ -113,22 +113,28 @@ INSTALACIÓN Y PUESTA EN MARCHA
 
 URLS PRINCIPALES
 ----------------
-  /                            -> Página de inicio
-  /cursos/                     -> Catálogo (búsqueda, filtro y paginación)
-  /cursos/<slug>/              -> Detalle de un curso
-  /matriculas/matricular/<id>/ -> Matricularse en un curso
-  /matriculas/cancelar/<id>/   -> Cancelar una matrícula
-  /matriculas/mis-cursos/      -> Cursos matriculados del alumno
-  /matriculas/dashboard/       -> Dashboard privado del alumno
-  /accounts/login/             -> Inicio de sesión
-  /accounts/logout/            -> Cierre de sesión
-  /admin/                      -> Panel de administración (Jazzmin)
+  /                              -> Página de inicio
+  /cursos/                       -> Catálogo (búsqueda, filtro y paginación)
+  /cursos/<slug>/                -> Detalle de un curso
+  /cursos/nuevo/                 -> Crear curso (solo profesores)
+  /cursos/<slug>/editar/         -> Editar curso (solo profesores)
+  /cursos/<slug>/eliminar/       -> Eliminar curso (solo profesores)
+  /matriculas/matricular/<id>/   -> Matricularse en un curso
+  /matriculas/cancelar/<id>/     -> Cancelar una matrícula
+  /matriculas/mis-cursos/        -> Cursos matriculados del alumno
+  /matriculas/dashboard/         -> Dashboard privado del alumno
+  /profesores/dashboard/         -> Panel privado del profesor
+  /profesores/mis-cursos/        -> Cursos del profesor con estadísticas
+  /accounts/login/               -> Inicio de sesión
+  /accounts/logout/              -> Cierre de sesión
+  /admin/                        -> Panel de administración (Jazzmin)
 
 NOTAS
 -----
 - Idioma configurado en español (es-es).
 - Las imágenes se almacenan en la carpeta media/.
 - Los slugs se generan automáticamente a partir del nombre del curso.
+- Las vistas de cursos utilizan Class Based Views (CBV).
 - En producción: DEBUG=False y configurar ALLOWED_HOSTS en settings.py.
 - El archivo .env no debe incluirse en el control de versiones.
 

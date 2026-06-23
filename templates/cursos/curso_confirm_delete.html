@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Curso{% endblock %}
+
+{% block content %}
+<h1>Eliminar Curso</h1>
+<div class="alert alert-danger mt-4">
+    ¿Deseas eliminar el curso <strong>{{ object.nombre }}</strong>? Esta acción no se puede deshacer.
+</div>
+<form method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger">Eliminar</button>
+    <a href="{% url 'detalle_curso' object.slug %}" class="btn btn-secondary ms-2">Cancelar</a>
+</form>
+{% endblock %}

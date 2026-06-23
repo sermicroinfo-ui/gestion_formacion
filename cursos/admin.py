@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.utils import timezone
+from django.db.models import Count
 from datetime import timedelta
 from .models import Curso
 
@@ -105,10 +106,12 @@ class CursoAdmin(admin.ModelAdmin):
         'miniatura',
         'nombre',
         'profesor',
+        'alumnos',
         'fecha_inicio',
         'fecha_fin',
         'activo',
     )
+    list_editable = ('activo',)
     search_fields = (
         'nombre',
         'descripcion',
@@ -129,6 +132,10 @@ class CursoAdmin(admin.ModelAdmin):
             'fields': ('activo', 'imagen',)
         }),
     )
+
+    def alumnos(self, obj):
+        return obj.matriculas.count()
+    alumnos.short_description = 'Alumnos'
 
     def miniatura(self, obj):
         if obj.imagen:

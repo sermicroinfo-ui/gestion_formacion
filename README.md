@@ -14,13 +14,13 @@ Plataforma web para la gestión de cursos, profesores, alumnos y matrículas, de
 - Registro e inicio de sesión con modelo de usuario personalizado (alumno / profesor)
 - Catálogo público de cursos con imagen, plazas y fechas
 - Búsqueda de cursos por nombre o descripción
-- Filtrado por profesor
-- Paginación del catálogo
+- Filtrado por profesor y paginación del catálogo
 - URLs amigables para SEO mediante slugs
 - Matriculación con control de plazas y duplicados
 - Cancelación de matrículas con confirmación
 - Dashboard privado del alumno con estadísticas
-- Área privada con listado de cursos matriculados
+- Panel privado del profesor con estadísticas por curso
+- Gestión de cursos propios (crear, editar, eliminar) para profesores
 - Menú dinámico según tipo de usuario
 - Panel de administración personalizado con Jazzmin
 
@@ -46,10 +46,10 @@ Plataforma web para la gestión de cursos, profesores, alumnos y matrículas, de
 gestion_formacion/
 ├── config/          # Configuración principal (settings, urls, wsgi)
 ├── core/            # Página de inicio
-├── usuarios/        # Modelo de usuario personalizado (alumno / profesor)
-├── profesores/      # Perfil de profesor (especialidad, biografía, foto)
-├── cursos/          # Cursos (nombre, slug, descripción, plazas, fechas, imagen)
-├── matriculas/      # Matrículas, dashboard y área privada del alumno
+├── usuarios/        # Modelo de usuario personalizado + decoradores
+├── profesores/      # Perfil de profesor + panel privado
+├── cursos/          # Cursos: modelos, vistas CBV, formularios, admin
+├── matriculas/      # Matrículas, dashboard alumno y área privada
 ├── templates/       # Plantillas HTML globales
 ├── media/           # Archivos subidos (imágenes)
 ├── requirements.txt
@@ -153,14 +153,18 @@ Abrir en el navegador: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 | URL | Descripción |
 |---|---|
 | `/` | Página de inicio |
-| `/cursos/` | Catálogo de cursos (con búsqueda, filtro y paginación) |
+| `/cursos/` | Catálogo de cursos (búsqueda, filtro y paginación) |
 | `/cursos/<slug>/` | Detalle de un curso |
+| `/cursos/nuevo/` | Crear curso (solo profesores) |
+| `/cursos/<slug>/editar/` | Editar curso (solo profesores) |
+| `/cursos/<slug>/eliminar/` | Eliminar curso (solo profesores) |
 | `/matriculas/matricular/<id>/` | Matricularse en un curso |
 | `/matriculas/cancelar/<id>/` | Cancelar una matrícula |
 | `/matriculas/mis-cursos/` | Cursos matriculados del alumno |
 | `/matriculas/dashboard/` | Dashboard privado del alumno |
+| `/profesores/dashboard/` | Panel privado del profesor |
+| `/profesores/mis-cursos/` | Cursos del profesor con estadísticas |
 | `/accounts/login/` | Inicio de sesión |
-| `/accounts/logout/` | Cierre de sesión |
 | `/admin/` | Panel de administración |
 
 ---
@@ -169,5 +173,6 @@ Abrir en el navegador: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 - Idioma configurado en español (`es-es`).
 - Las imágenes se almacenan en `media/`.
-- Los slugs de los cursos se generan automáticamente a partir del nombre.
+- Los slugs se generan automáticamente a partir del nombre del curso.
+- Las vistas de cursos utilizan Class Based Views (CBV).
 - En producción: `DEBUG=False` y configurar `ALLOWED_HOSTS` en `settings.py`.

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Panel Profesor{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Panel Profesor</h1>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Cursos impartidos</h5>
+                <h1>{{ total_cursos }}</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Alumnos matriculados</h5>
+                <h1>{{ total_alumnos }}</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Curso más popular</h5>
+                <p>
+                    {% if curso_popular %}
+                        {{ curso_popular.nombre }}
+                        <br><small class="text-muted">{{ curso_popular.total }} alumnos</small>
+                    {% else %}
+                        Sin datos
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="{% url 'mis_cursos_profesor' %}" class="btn btn-primary">Ver mis cursos</a>
+{% endblock %}

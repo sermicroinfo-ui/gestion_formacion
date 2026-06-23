@@ -29,6 +29,10 @@
                         <a href="{% url 'dashboard' %}" class="btn btn-primary me-2">Dashboard</a>
                         <a href="{% url 'mis_cursos' %}" class="btn btn-warning me-2">Mis Cursos</a>
                     {% endif %}
+                    {% if user.tipo == 'profesor' %}
+                        <a href="{% url 'dashboard_profesor' %}" class="btn btn-info me-2">Panel Profesor</a>
+                        <a href="{% url 'mis_cursos_profesor' %}" class="btn btn-secondary me-2">Mis Cursos</a>
+                    {% endif %}
                     <a href="{% url 'lista_cursos' %}" class="btn btn-success me-2">Ver Cursos</a>
                     <form method="post" action="{% url 'logout' %}" class="d-inline">
                         {% csrf_token %}
