@@ -130,6 +130,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
@@ -146,4 +147,5 @@ JAZZMIN_SETTINGS = {
     "welcome_sign": "Bienvenido al panel",
     "show_sidebar": True,
     "navigation_expanded": True,
+    "custom_css": "css/admin_custom.css",
 }
